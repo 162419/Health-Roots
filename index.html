@@ -1,0 +1,235 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row =>
+                    row.some(cell => cell !== '' && cell !== null && cell !== undefined)
+                );
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nha Lanxinho - Projeto de alimentação saudável, educação e sustentabilidade para crianças em Cabo Verde.">
+    <meta name="keywords" content="Nha Lanxinho, alimentação saudável, sustentabilidade, Cabo Verde, educação">
+    <title>Nha Lanxinho - Alimentação Saudável para Crianças</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #004aad;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+        }
+
+        nav {
+            margin-top: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1rem;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            margin-top: 80px;
+        }
+
+        section {
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #sobre {
+            background-color: #fff;
+        }
+
+        #impacto {
+            background-color: #ffeb3b;
+        }
+
+        #como-ajudar {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        #contato {
+            background-color: #004aad;
+            color: white;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            background-color: #ffeb3b;
+            color: #333;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #ffd700;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            nav a {
+                font-size: 0.9rem;
+                margin: 0 0.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Nha Lanxinho</h1>
+        <nav>
+            <a href="#sobre">Sobre</a>
+            <a href="#impacto">Impacto</a>
+            <a href="#como-ajudar">Como Ajudar</a>
+            <a href="#contato">Contato</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="sobre">
+            <h2>Sobre o Nha Lanxinho</h2>
+            <p>"Nha Lanxinho" significa "meu lanchinho" em crioulo cabo-verdiano. Nosso projeto promove alimentação saudável para crianças pré-escolares em Cabo Verde, combinando educação nutricional e sustentabilidade. Produzimos lanches naturais, sem lixo, usando ingredientes locais como estévia e legumes cultivados em nossas estufas.</p>
+            <p>Nossa missão é combater a má nutrição, reduzir o impacto ambiental e fortalecer a comunidade através da inclusão e geração de empregos.</p>
+        </section>
+
+        <section id="impacto">
+            <h2>Nosso Impacto</h2>
+            <p>Alinhado aos Objetivos de Desenvolvimento Sustentável (ODS 2, 3, 4, 11, 12, 13, 17), o Nha Lanxinho gera impacto social e ambiental:</p>
+            <ul style="text-align: left; max-width: 800px;">
+                <li><strong>Saúde e Bem-Estar:</strong> Lanches nutritivos para crianças, reduzindo o consumo de industrializados.</li>
+                <li><strong>Sustentabilidade:</strong> Produção local e embalagens reutilizáveis, minimizando resíduos.</li>
+                <li><strong>Emprego:</strong> 20 vagas diretas (cozinha, agricultura, logística) e 30-50 indiretas, com inclusão de pessoas com deficiência.</li>
+                <li><strong>Educação:</strong> Oficinas de nutrição para crianças e famílias.</li>
+            </ul>
+        </section>
+
+        <section id="como-ajudar">
+            <h2>Como Ajudar</h2>
+            <p>Junte-se ao Nha Lanxinho! Seja um parceiro, voluntário ou apoiador do nosso projeto no Impactar Bootcamp. Sua ajuda pode transformar a vida de crianças e fortalecer comunidades em Cabo Verde.</p>
+            <a href="#contato" class="btn">Quero Ajudar!</a>
+        </section>
+
+        <section id="contato">
+            <h2>Entre em Contato</h2>
+            <p>Envie-nos uma mensagem para saber mais ou se tornar um parceiro:</p>
+            <p>Email: contato@nhalanxinho.cv</p>
+            <p>Telefone: +238 123 456 789</p>
+            <p>Siga-nos nas redes sociais!</p>
+            <p>
+                <a href="https://facebook.com/nhalanxinho" style="color: #ffeb3b;">Facebook</a> |
+                <a href="https://instagram.com/nhalanxinho" style="color: #ffeb3b;">Instagram</a>
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Nha Lanxinho. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling para navegação
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
